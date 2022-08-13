@@ -10,6 +10,9 @@ const startupDebugger = require("debug")("app:startup");
 //Create the Express App
 const app = express();
 
+//importing routes
+const orderRoutes = require('./src/routes/order');
+
 //Setup Request body JSON Parsing
 app.use(express.json());
 
@@ -19,6 +22,8 @@ app.use(express.urlencoded({ extended: true }));
 app.use(cors());
 
 app.use(helmet());
+
+app.use(orderRoutes);
 
 //"mongodb://localhost:27017/SPM"
 const connectionString = process.env.connectionstring;
