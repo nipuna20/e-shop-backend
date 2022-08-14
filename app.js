@@ -1,6 +1,7 @@
-//load modules
+//Load modules
 const dotenv = require("dotenv");
 dotenv.config();
+const configurationManager = require("./src/config/api.config");
 const express = require("express");
 const mongoose = require("mongoose");
 const cors = require("cors");
@@ -10,8 +11,17 @@ const startupDebugger = require("debug")("app:startup");
 //Create the Express App
 const app = express();
 
-//importing routes
-const orderRoutes = require('./src/routes/order');
+//Importing routes
+
+//Order Routes
+const orderRoutes = require("./src/routes/order");
+
+//User Routes
+
+//Payment Routes
+
+//Delivery Service Routes
+const deliveryServiceRoute = require("./src/routes/delivery.service.routes");
 
 //Setup Request body JSON Parsing
 app.use(express.json());
@@ -26,9 +36,8 @@ app.use(helmet());
 app.use(orderRoutes);
 
 //"mongodb://localhost:27017/SPM"
-const connectionString = process.env.connectionstring;
 
-mongoose.connect(connectionString, {
+mongoose.connect(configurationManager.connectionString, {
 	useNewUrlParser: true,
 	useUnifiedTopology: true,
 });
@@ -41,6 +50,11 @@ if (app.get("env") === "development") {
 	app.use(morgan("tiny"));
 	startupDebugger("Enabled Morgon......");
 }
+
+// Configure Services
+
+//Delivery Services
+app.use("api/deleveryService", deliveryServiceRoute);
 
 app.get("/", (request, response) => {
 	response.send("<h3>Welcome API Documentation</h3>");
