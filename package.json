@@ -4,8 +4,8 @@
 	"description": "",
 	"main": "app.js",
 	"scripts": {
-		"start": "nodemon app.js ",
-		"server": "nodemon app.js",
+		"start": "nodemon app.js",
+		"local:server": "@powershell -Command $env:DEBUG='app:startup, app:db'; nodemon app.js",
 		"format": "prettier --write .",
 		"check-format": "prettier --check ."
 	},
