@@ -1,6 +1,10 @@
 const DeliveryService = require("../models/delivery.service.model");
 
 /**
+ * @todo create @function GetById,MasterData,DeliveryServiceListIncudingFilters
+ */
+
+/**
  * Delivery Service Service
  * @param {DeliveryServiceDTO}
  * @service save and update Delivery Service
@@ -31,10 +35,10 @@ const saveDeliveryService = async (request, response) => {
 		} else {
 			const availableDeliveryService = await DeliveryService.findById(id);
 
-			if (!availableDeliveryService) {
+			if (availableDeliveryService === null) {
 				response.json({
 					isSuccess: false,
-					message: "Not Found Delivery Service Pease try Again",
+					message: "Not Found Delivery Service Please try Again",
 				});
 			}
 

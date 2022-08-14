@@ -8,6 +8,8 @@ const cors = require("cors");
 const helmet = require("helmet");
 const morgan = require("morgan");
 const startupDebugger = require("debug")("app:startup");
+const dbDebugger = require("debug")("app:db");
+
 //Create the Express App
 const app = express();
 
@@ -33,28 +35,27 @@ app.use(cors());
 
 app.use(helmet());
 
+// Configure Services
+
+//Order Services
 app.use(orderRoutes);
 
-//"mongodb://localhost:27017/SPM"
+//Delivery Services
+app.use("api/deleveryService", deliveryServiceRoute);
 
+//"mongodb://localhost:27017/SPM"
 mongoose.connect(configurationManager.connectionString, {
 	useNewUrlParser: true,
 	useUnifiedTopology: true,
 });
 
 mongoose.connection.once("open", () => {
-	console.log("Connect Database");
+	dbDebugger("Connect Database");
 });
-
 if (app.get("env") === "development") {
 	app.use(morgan("tiny"));
 	startupDebugger("Enabled Morgon......");
 }
-
-// Configure Services
-
-//Delivery Services
-app.use("api/deleveryService", deliveryServiceRoute);
 
 app.get("/", (request, response) => {
 	response.send("<h3>Welcome API Documentation</h3>");
@@ -63,5 +64,7 @@ app.get("/", (request, response) => {
 const port = process.env.PORT || 4000;
 
 app.listen(port, () => {
-	console.log(`Web API Development: ${port}`);
+	startupDebugger(`Web API Development: ${port}`);
 });
+
+/*$env:DEBUG = "app:startup, app:db"*/
