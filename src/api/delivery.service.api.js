@@ -1,3 +1,4 @@
+const { request, response } = require("express");
 const DeliveryService = require("../models/delivery.service.model");
 
 /**
@@ -13,7 +14,6 @@ const DeliveryService = require("../models/delivery.service.model");
 const saveDeliveryService = async (request, response) => {
 	try {
 		let { id, name, email, telephoneNumber, address } = request.body;
-
 		if (id === null) {
 			let deliveryService = new DeliveryService({
 				name,
@@ -43,7 +43,6 @@ const saveDeliveryService = async (request, response) => {
 			}
 
 			const deliveryServiceObj = await DeliveryService.findByIdAndUpdate(id, {
-				id,
 				name,
 				email,
 				telephoneNumber,
@@ -64,6 +63,135 @@ const saveDeliveryService = async (request, response) => {
 	}
 };
 
+/**
+ * Delivery Service Service
+ * @param {DeliveryServiceId}
+ * @service Delete Delivery Service
+ * @returns {Promise<responseDTO>}
+ */
+
+const deleteDeliveryService = async (request, response) => {
+	try {
+		const deleveryServiceId = request.params.id;
+
+		let deliveryService = await DeliveryService.findById(deleveryServiceId);
+
+		if (deliveryService === null) {
+			response.json({
+				isSuccess: false,
+				message: "Not Found Delivery Service Please try Again",
+			});
+		}
+
+		deliveryService = await DeliveryService.findByIdAndDelete(deleveryServiceId);
+
+		response.json({
+			isSuccess: true,
+			message: "Delivery Service has been delete successfully",
+		});
+	} catch (error) {
+		response.json({
+			isSuccess: false,
+			message: "Error has been occred please try again",
+		});
+	}
+};
+
+/**
+ * Delivery Service Service
+ * @param {DeliveryServiceFilterDTO}
+ * @service Get All Search Delivery Services
+ * @returns {Promise<Array<DeliveryService>>}
+ */
+
+const getAllDeliveryServices = async (request, response) => {
+	try {
+		let { seachText } = request.body;
+
+		if (seachText != null) {
+			let deliveryServicesDataSet = await DeliveryService.find({ name: { $regex: seachText, $options: "i" } });
+
+			response.json(deliveryServicesDataSet);
+		}
+
+		let deliveryServicesDataSet = await DeliveryService.find().exec();
+
+		response.json(deliveryServicesDataSet);
+	} catch (error) {}
+};
+
+/**
+ * Delivery Service Service
+ * @param {DisabledDeliveyServiceDTO}
+ * @service Disable Delivery Service Activities
+ * @returns {Promise<responseDTO>}
+ */
+
+const controlDeliveryServiceActivities = async (resquest, response) => {
+	try {
+		const { id, isActive } = request.body;
+
+		let deliveryService = await DeliveryService.findById(id);
+
+		if (!deliveryService) {
+			response.json({
+				isSuccess: false,
+				message: "Not Found Delivery Service Please try Again",
+			});
+		} else {
+			deliveryService = await DeliveryService.findByIdAndUpdate(id, {
+				$set: {
+					isActive: isActive,
+				},
+			});
+
+			if (isActive) {
+				response.json({
+					isSuccess: true,
+					message: "Delivery Service has been disabled successfully",
+				});
+			} else {
+				response.json({
+					isSuccess: true,
+					message: "Delivery Service has been enabled successfully",
+				});
+			}
+		}
+	} catch (error) {
+		response.json({
+			isSuccess: false,
+			message: "Error has been occred please try again",
+		});
+	}
+};
+
+/**
+ * Delivery Service Service
+ * @param {}
+ * @service Get Master Delivery Service Data
+ * @returns {Promise<dropDownDTO>}
+ */
+const getDeliveryServiceMasterData = async (request, response) => {
+	try {
+		let dropDownDTO = [];
+
+		const masterData = await DeliveryService.find({ isActive: ture });
+
+		for (const item in masterData) {
+			dropDownDTO.push({
+				id: masterData[item]._id,
+				name: masterData[item].name,
+			});
+		}
+
+		response.json(dropDownDTO);
+	} catch (error) {}
+};
+
 module.exports = {
 	saveDeliveryService,
+	deleteDeliveryService,
+	getAllDeliveryServices,
+	controlDeliveryServiceActivities,
+	getDeliveryServiceMasterData,
 };

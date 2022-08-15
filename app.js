@@ -24,7 +24,6 @@ const orderRoutes = require("./src/routes/order");
 
 //Delivery Service Routes
 const deliveryServiceRoute = require("./src/routes/delivery.service.routes");
-
 //Setup Request body JSON Parsing
 app.use(express.json());
 
@@ -67,4 +66,4 @@ app.listen(port, () => {
 	startupDebugger(`Web API Development: ${port}`);
 });
 
-/*$env:DEBUG = "app:startup, app:db"*/
+/*npm run local:server*/
