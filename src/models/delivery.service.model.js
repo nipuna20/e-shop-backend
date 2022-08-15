@@ -22,7 +22,7 @@ const deliveryServiceSchema = new Schema({
 		required: true,
 	},
 
-	isDisabled: {
+	isActive: {
 		type: Boolean,
 		required: false,
 		default: true,
@@ -30,7 +30,7 @@ const deliveryServiceSchema = new Schema({
 
 	createdOn: {
 		type: Date,
-		required: true,
+		required: false,
 	},
 
 	createdBy: {
@@ -41,7 +41,7 @@ const deliveryServiceSchema = new Schema({
 
 	updatedOn: {
 		type: Date,
-		required: true,
+		required: false,
 	},
 
 	updatedBy: {
