@@ -20,10 +20,8 @@ const saveDeliveryService = async (request, response) => {
 				email,
 				telephoneNumber,
 				address,
-				createdOn: new Date.now(),
-				createdBy,
-				updatedOn: new Date.now(),
-				updatedBy,
+				createdOn: new Date(),
+				updatedOn: new Date(),
 			});
 
 			await deliveryService.save();
@@ -58,7 +56,7 @@ const saveDeliveryService = async (request, response) => {
 	} catch (error) {
 		response.json({
 			isSuccess: false,
-			message: "Error has been occred please try again",
+			message: "Error has been occred please try again " + error,
 		});
 	}
 };
@@ -106,17 +104,16 @@ const deleteDeliveryService = async (request, response) => {
 
 const getAllDeliveryServices = async (request, response) => {
 	try {
-		let { seachText } = request.body;
+		let { searchText } = request.body;
 
-		if (seachText != null) {
-			let deliveryServicesDataSet = await DeliveryService.find({ name: { $regex: seachText, $options: "i" } });
+		if (searchText != null) {
+			let deliveryServicesDataSet = await DeliveryService.find({ name: { $regex: searchText, $options: "i" } });
 
 			response.json(deliveryServicesDataSet);
+		} else {
+			let deliveryServicesDataSet = await DeliveryService.find().exec();
+			response.json(deliveryServicesDataSet);
 		}
-
-		let deliveryServicesDataSet = await DeliveryService.find().exec();
-
-		response.json(deliveryServicesDataSet);
 	} catch (error) {}
 };
 
@@ -127,7 +124,7 @@ const getAllDeliveryServices = async (request, response) => {
  * @returns {Promise<responseDTO>}
  */
 
-const controlDeliveryServiceActivities = async (resquest, response) => {
+const controlDeliveryServiceActivities = async (request, response) => {
 	try {
 		const { id, isActive } = request.body;
 
@@ -145,15 +142,15 @@ const controlDeliveryServiceActivities = async (resquest, response) => {
 				},
 			});
 
-			if (isActive) {
+			if (isActive === true) {
 				response.json({
 					isSuccess: true,
-					message: "Delivery Service has been disabled successfully",
+					message: "Delivery Service has been enabled successfully",
 				});
 			} else {
 				response.json({
 					isSuccess: true,
-					message: "Delivery Service has been enabled successfully",
+					message: "Delivery Service has been disabled successfully",
 				});
 			}
 		}
@@ -167,6 +164,22 @@ const controlDeliveryServiceActivities = async (resquest, response) => {
 
 /**
  * Delivery Service Service
+ * @param {DeliveryServiceId}
+ * @service Get Master Delivery Service Data
+ * @returns {Promise<DeliveryServiceDTO>}
+ */
+const deliveryServiceGetById = async (request, response) => {
+	try {
+		const deliveryServiceId = request.params.id;
+
+		const deliveryService = await DeliveryService.findById(deliveryServiceId);
+
+		response.json(deliveryService);
+	} catch (error) {}
+};
+
+/**
+ * Delivery Service Service
  * @param {}
  * @service Get Master Delivery Service Data
  * @returns {Promise<dropDownDTO>}
@@ -175,7 +188,7 @@ const getDeliveryServiceMasterData = async (request, response) => {
 	try {
 		let dropDownDTO = [];
 
-		const masterData = await DeliveryService.find({ isActive: ture });
+		const masterData = await DeliveryService.find({ isActive: true });
 
 		for (const item in masterData) {
 			dropDownDTO.push({
@@ -185,7 +198,9 @@ const getDeliveryServiceMasterData = async (request, response) => {
 		}
 
 		response.json(dropDownDTO);
-	} catch (error) {}
+	} catch (error) {
+		console.log(error);
+	}
 };
 
 module.exports = {
@@ -194,4 +209,5 @@ module.exports = {
 	getAllDeliveryServices,
 	controlDeliveryServiceActivities,
 	getDeliveryServiceMasterData,
+	deliveryServiceGetById,
 };

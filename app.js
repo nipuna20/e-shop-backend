@@ -40,7 +40,7 @@ app.use(helmet());
 app.use(orderRoutes);
 
 //Delivery Services
-app.use("api/deleveryService", deliveryServiceRoute);
+app.use("/api/deleveryService", require("./src/routes/delivery.service.routes"));
 
 //"mongodb://localhost:27017/SPM"
 mongoose.connect(configurationManager.connectionString, {
