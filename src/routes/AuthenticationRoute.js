@@ -99,7 +99,7 @@ router.post("/login", async (req, res) => {
 
 
 // Update All Data 
-router.route('/AllData/update/:id').put((req, res) => {
+router.put("/AllData/update/:id", async(req, res) => {
   CommonSignup.findById(req.params.id)
       .then(alldata => {
           alldata.name = req.body.name;
