@@ -1,6 +1,6 @@
 const { request, response } = require("express");
 const DeliveryService = require("../models/delivery.service.model");
-
+const logger = require("../utils/logger");
 /**
  * @todo create @function GetById,MasterData,DeliveryServiceListIncudingFilters
  */
@@ -54,6 +54,8 @@ const saveDeliveryService = async (request, response) => {
 			});
 		}
 	} catch (error) {
+		logger.error(error);
+
 		response.json({
 			isSuccess: false,
 			message: "Error has been occred please try again " + error,
@@ -88,6 +90,8 @@ const deleteDeliveryService = async (request, response) => {
 			message: "Delivery Service has been delete successfully",
 		});
 	} catch (error) {
+		logger.error(error);
+
 		response.json({
 			isSuccess: false,
 			message: "Error has been occred please try again",
@@ -114,7 +118,9 @@ const getAllDeliveryServices = async (request, response) => {
 			let deliveryServicesDataSet = await DeliveryService.find().exec();
 			response.json(deliveryServicesDataSet);
 		}
-	} catch (error) {}
+	} catch (error) {
+		logger.error(error);
+	}
 };
 
 /**
@@ -155,6 +161,8 @@ const controlDeliveryServiceActivities = async (request, response) => {
 			}
 		}
 	} catch (error) {
+		logger.error(error);
+
 		response.json({
 			isSuccess: false,
 			message: "Error has been occred please try again",
@@ -175,7 +183,9 @@ const deliveryServiceGetById = async (request, response) => {
 		const deliveryService = await DeliveryService.findById(deliveryServiceId);
 
 		response.json(deliveryService);
-	} catch (error) {}
+	} catch (error) {
+		logger.error(error);
+	}
 };
 
 /**
@@ -199,7 +209,7 @@ const getDeliveryServiceMasterData = async (request, response) => {
 
 		response.json(dropDownDTO);
 	} catch (error) {
-		console.log(error);
+		logger.error(error);
 	}
 };
 
