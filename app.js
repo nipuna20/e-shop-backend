@@ -18,7 +18,8 @@ const app = express();
 //Order Routes
 const orderRoutes = require("./src/routes/order");
 
-//User Routes
+//Authentication Routes
+const routAuthentication = require("./src/routes/AuthenticationRoute");
 
 //Payment Routes
 
@@ -35,6 +36,9 @@ app.use(cors());
 app.use(helmet());
 
 // Configure Services
+
+//Authentication Services
+app.use(routAuthentication);
 
 //Order Services
 app.use(orderRoutes);
