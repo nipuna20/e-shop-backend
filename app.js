@@ -53,21 +53,21 @@ mongoose.connect(configurationManager.connectionString, {
 });
 
 mongoose.connection.once("open", () => {
-	dbDebugger("Connect Database");
+	dbDebugger("🗄️  Connect Database....");
 });
 if (app.get("env") === "development") {
 	app.use(morgan("tiny"));
-	startupDebugger("Enabled Morgon......");
+	startupDebugger("✨  Enabled Morgon......");
 }
 
 app.get("/", (request, response) => {
-	response.send("<h3>Welcome API Documentation</h3>");
+	response.send("<h3>🖥️  Welcome API Documentation</h3>");
 });
 
 const port = process.env.PORT || 4000;
 
 app.listen(port, () => {
-	startupDebugger(`Web API Development: ${port}`);
+	startupDebugger(`🚀  Web API Development: ${port}`);
 });
 
 /*npm run local:server*/
