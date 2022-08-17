@@ -9,7 +9,7 @@ const helmet = require("helmet");
 const morgan = require("morgan");
 const startupDebugger = require("debug")("app:startup");
 const dbDebugger = require("debug")("app:db");
-
+const logger = require("./src/utils/logger");
 //Create the Express App
 const app = express();
 
@@ -44,7 +44,7 @@ app.use(routAuthentication);
 app.use(orderRoutes);
 
 //Delivery Services
-app.use("api/deleveryService", deliveryServiceRoute);
+app.use("/api/deleveryService", require("./src/routes/delivery.service.routes"));
 
 //"mongodb://localhost:27017/SPM"
 mongoose.connect(configurationManager.connectionString, {
@@ -53,21 +53,21 @@ mongoose.connect(configurationManager.connectionString, {
 });
 
 mongoose.connection.once("open", () => {
-	dbDebugger("Connect Database");
+	logger.info(" Connect Database....");
 });
 if (app.get("env") === "development") {
 	app.use(morgan("tiny"));
-	startupDebugger("Enabled Morgon......");
+	startupDebugger("✨ Enabled Morgon......");
 }
 
 app.get("/", (request, response) => {
-	response.send("<h3>Welcome API Documentation</h3>");
+	response.send("<h3>🖥️ Welcome API Documentation</h3>");
 });
 
 const port = process.env.PORT || 4000;
 
 app.listen(port, () => {
-	startupDebugger(`Web API Development: ${port}`);
+	logger.info(`Web API Development: ${port}`);
 });
 
 /*npm run local:server*/
