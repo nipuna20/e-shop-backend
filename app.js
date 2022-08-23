@@ -16,7 +16,7 @@ const app = express();
 //Importing routes
 
 //Order Routes
-const orderRoutes = require("./src/routes/order");
+const orderRoutes = require("./src/routes/order.service.routes");
 
 //Authentication Routes
 const routAuthentication = require("./src/routes/AuthenticationRoute");
