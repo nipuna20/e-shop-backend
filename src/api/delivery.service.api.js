@@ -13,13 +13,14 @@ const logger = require("../utils/logger");
  */
 const saveDeliveryService = async (request, response) => {
 	try {
-		let { id, name, email, telephoneNumber, address } = request.body;
+		let { id, name, email, telephoneNumber, address, description } = request.body;
 		if (id === null) {
 			let deliveryService = new DeliveryService({
 				name,
 				email,
 				telephoneNumber,
 				address,
+				description,
 				createdOn: new Date(),
 				updatedOn: new Date(),
 			});
@@ -45,7 +46,8 @@ const saveDeliveryService = async (request, response) => {
 				email,
 				telephoneNumber,
 				address,
-				updatedOn: new Date.now(),
+				description,
+				updatedOn: new Date(),
 			});
 
 			response.json({
