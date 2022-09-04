@@ -12,19 +12,17 @@ const User = require("../models/user.model");
 
 const getAdminDashBoarddData = async (request, response) => {
 	try {
-		let totalUsersCount = await User.countDocuments();
-		let totalMessagesCount = await Messages.countDocuments();
-		let deliveryServiceCount = await deleveryService.countDocuments();
+		let totalUsersCount = await User.find({ isActive: true }).count();
+		let totalMessagesCount = await Messages.find({ isActive: true }).count();
+		let deliveryServicesCount = await deleveryService.find({ isActive: true }).count();
 
-		let messages = await Messages.find().exec();
+		let clientMessages = await Messages.find().exec();
 
 		response.json({
-			data: {
-				totalUsersCount: totalUsersCount,
-				totalMessagesCount: totalMessagesCount,
-				deliveryServiceCount: deliveryServiceCount,
-				messages: messages,
-			},
+			totalUsersCount: totalUsersCount,
+			totalMessagesCount: totalMessagesCount,
+			deliveryServicesCount: deliveryServicesCount,
+			clientMessages: clientMessages,
 		});
 	} catch (error) {
 		logger.error(error);
