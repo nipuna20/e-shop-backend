@@ -45,7 +45,8 @@ app.use(orderRoutes);
 
 //Delivery Services
 app.use("/api/deleveryService", require("./src/routes/delivery.service.routes"));
-app.use("api/message", require("./src/routes/messages.routes"));
+app.use("/api/message", require("./src/routes/messages.routes"));
+app.use("/api/dashboard", require("./src/routes/dashboard.routes"));
 //"mongodb://localhost:27017/SPM"
 mongoose.connect(configurationManager.connectionString, {
 	useNewUrlParser: true,
