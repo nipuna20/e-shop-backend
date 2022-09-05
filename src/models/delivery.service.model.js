@@ -22,6 +22,11 @@ const deliveryServiceSchema = new Schema({
 		required: true,
 	},
 
+	description: {
+		type: String,
+		required: true,
+	},
+
 	isActive: {
 		type: Boolean,
 		required: false,
