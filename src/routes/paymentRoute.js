@@ -1,13 +1,11 @@
 const express = require('express');
-
-const Posts = require('../models/order.model');
-
+const Posts = require('../models/payment');
 
 const router = express.Router();
 
 //save posts
 
-router.post('/order/save',(req,res)=>{
+router.post('/payment/save',(req,res)=>{
     let newPost = new Posts(req.body);
 
     newPost.save((err)=>{
@@ -24,7 +22,7 @@ router.post('/order/save',(req,res)=>{
 
 //get posts
 
-router.get('/orders',(req,res)=>{
+router.get('/payments',(req,res)=>{
     Posts.find().exec((err,posts)=>{
         if(err){
             return res.status(400).json({
@@ -40,7 +38,7 @@ router.get('/orders',(req,res)=>{
 
 //get a specific post
 
-router.get("/order/:id",(req,res) =>{
+router.get("/payment/:id",(req,res) =>{
     let postId = req.params.id;
 
     Posts.findById(postId,(err,post)=>{
@@ -56,7 +54,7 @@ router.get("/order/:id",(req,res) =>{
 
 //update posts
 
-router.put('/order/update/:id',(req,res) => {
+router.put('/payment/update/:id',(req,res) => {
 
     Posts.findByIdAndUpdate(
         req.params.id,
@@ -81,7 +79,7 @@ router.put('/order/update/:id',(req,res) => {
 
 //delete post
 
-router.delete('/order/delete/:id',(req,res)=>{
+router.delete('/payment/delete/:id',(req,res)=>{
     Posts.findByIdAndRemove(req.params.id).exec((err,deletedPost)=>{
 
         if(err)return res.status(400).json({

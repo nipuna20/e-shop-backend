@@ -7,6 +7,7 @@ const {
 	getAllDeliveryServices,
 	controlDeliveryServiceActivities,
 	getDeliveryServiceMasterData,
+	deliveryServiceGetById,
 } = require("../api/delivery.service.api");
 
 /**
@@ -18,17 +19,17 @@ router.post("/", saveDeliveryService);
 
 /**
  * @Method {DELETE}
- * @Route api/DeliveryService/
+ * @Route api/DeliveryService/Id
  * @Description Delete DeliveryService By Admin
  */
-router.delete("/", deleteDeliveryService);
+router.delete("/:id", deleteDeliveryService);
 
 /**
- * @Method {GET}
+ * @Method {POST}
  * @Route api/DeliveryService/
  * @Description Get All And Filter DeliveryServices By Admin
  */
-router.get("/", getAllDeliveryServices);
+router.post("/getAllDeliveryServices", getAllDeliveryServices);
 
 /**
  * @Method {PUT}
@@ -44,4 +45,10 @@ router.put("/", controlDeliveryServiceActivities);
  */
 router.get("/masterData", getDeliveryServiceMasterData);
 
+/**
+ * @Method {GET}
+ * @Route api/DeliveryService/:id
+ * @Description Get DeliveryServices by Id
+ */
+router.get("/:id", deliveryServiceGetById);
 module.exports = router;
