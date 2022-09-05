@@ -14,15 +14,15 @@ const logger = require("../utils/logger");
 const saveDeliveryService = async (request, response) => {
 	try {
 		let { id, name, email, telephoneNumber, address, description } = request.body;
-		if (id === null) {
+		if (id === 0) {
 			let deliveryService = new DeliveryService({
 				name,
 				email,
 				telephoneNumber,
 				address,
 				description,
-				createdOn: new Date(),
-				updatedOn: new Date(),
+				createdOn: new Date().toISOString(),
+				updatedOn: new Date().toISOString(),
 			});
 
 			await deliveryService.save();
@@ -113,11 +113,13 @@ const getAllDeliveryServices = async (request, response) => {
 		let { searchText } = request.body;
 
 		if (searchText != null) {
-			let deliveryServicesDataSet = await DeliveryService.find({ name: { $regex: searchText, $options: "i" } });
+			let deliveryServicesDataSet = await DeliveryService.find({ name: { $regex: searchText, $options: "i" } }).sort({
+				createdOn: -1,
+			});
 
 			response.json(deliveryServicesDataSet);
 		} else {
-			let deliveryServicesDataSet = await DeliveryService.find().exec();
+			let deliveryServicesDataSet = await DeliveryService.find().sort({ createdOn: -1 });
 			response.json(deliveryServicesDataSet);
 		}
 	} catch (error) {
