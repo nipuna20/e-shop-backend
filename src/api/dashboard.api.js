@@ -2,7 +2,7 @@ const Messages = require("../models/message.model");
 const logger = require("../utils/logger");
 const deleveryService = require("../models/delivery.service.model");
 const User = require("../models/user.model");
-const Order = require("../models/order");
+const Order = require("../models/order.model");
 
 /**
  * Dashboard Service Service
