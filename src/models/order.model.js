@@ -28,6 +28,10 @@ const orderSchema = new mongoose.Schema({
         type:String,
         default:"Pending"
     },
+    cartTotal:{
+        type:String,
+        required:true
+    }
 
      
     
