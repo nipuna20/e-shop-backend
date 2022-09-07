@@ -146,9 +146,10 @@ const controlDeliveryServiceActivities = async (request, response) => {
 				message: "Not Found Delivery Service Please try Again",
 			});
 		} else {
+			const value = isActive === true ? false : true;
 			deliveryService = await DeliveryService.findByIdAndUpdate(id, {
 				$set: {
-					isActive: isActive,
+					isActive: value,
 				},
 			});
 
