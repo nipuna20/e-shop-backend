@@ -47,6 +47,7 @@ app.use(orderRoutes);
 app.use("/api/deleveryService", require("./src/routes/delivery.service.routes"));
 app.use("/api/message", require("./src/routes/messages.routes"));
 app.use("/api/dashboard", require("./src/routes/dashboard.routes"));
+app.use("/api/report", require("./src/routes/pdf.report.generate.manager.routes"));
 //"mongodb://localhost:27017/SPM"
 mongoose.connect(configurationManager.connectionString, {
 	useNewUrlParser: true,
