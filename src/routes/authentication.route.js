@@ -1,7 +1,7 @@
 const router = require("express").Router();
-const CommonSignup = require("../models/CommonSignup");
+const CommonSignup = require("../models/common.signup.model");
 const jwt = require("jsonwebtoken");
-const {saveUser} = require ("../api/Authentication.api");
+const {saveUser} = require ("../api/authentication.api");
 
 //User Data 
 

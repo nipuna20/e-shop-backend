@@ -19,7 +19,7 @@ const app = express();
 const orderRoutes = require("./src/routes/order.service.routes");
 
 //Authentication Routes
-const routAuthentication = require("./src/routes/AuthenticationRoute");
+const routAuthentication = require("./src/routes/authentication.route");
 
 //Payment Routes
 
