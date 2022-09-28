@@ -113,7 +113,7 @@ const getAllDeliveryServices = async (request, response) => {
 	try {
 		let { searchText } = request.body;
 		let deliveryServicesDataSet = [];
-		if (searchText != null) {
+		if (searchText) {
 			deliveryServicesDataSet = await DeliveryService.find({ name: { $regex: searchText, $options: "i" } }).sort({
 				createdOn: -1,
 			});
