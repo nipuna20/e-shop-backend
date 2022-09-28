@@ -1,5 +1,6 @@
 const { request, response } = require("express");
 const DeliveryService = require("../models/delivery.service.model");
+const momentController = require("moment");
 const logger = require("../utils/logger");
 /**
  * @todo create @function GetById,MasterData,DeliveryServiceListIncudingFilters
@@ -111,17 +112,29 @@ const deleteDeliveryService = async (request, response) => {
 const getAllDeliveryServices = async (request, response) => {
 	try {
 		let { searchText } = request.body;
-
+		let deliveryServicesDataSet = [];
 		if (searchText != null) {
-			let deliveryServicesDataSet = await DeliveryService.find({ name: { $regex: searchText, $options: "i" } }).sort({
+			deliveryServicesDataSet = await DeliveryService.find({ name: { $regex: searchText, $options: "i" } }).sort({
 				createdOn: -1,
 			});
-
-			response.json(deliveryServicesDataSet);
 		} else {
-			let deliveryServicesDataSet = await DeliveryService.find().sort({ createdOn: -1 });
-			response.json(deliveryServicesDataSet);
+			deliveryServicesDataSet = await DeliveryService.find().sort({ createdOn: -1 });
 		}
+
+		let basicDeliveryServicesDTO = [];
+
+		for (const item of deliveryServicesDataSet) {
+			basicDeliveryServicesDTO.push({
+				id: item._id,
+				name: item.name,
+				email: item.email,
+				telephoneNumber: item.telephoneNumber,
+				createdOn: momentController(item.createdOn).format("MMMM Do YYYY"),
+				updatedOn: momentController(item.updatedOn).format("MMMM Do YYYY"),
+			});
+		}
+
+		response.json(basicDeliveryServicesDTO);
 	} catch (error) {
 		logger.error(error);
 	}
