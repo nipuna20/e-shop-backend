@@ -125,10 +125,13 @@ const getAllDeliveryServices = async (request, response) => {
 
 		for (const item of deliveryServicesDataSet) {
 			basicDeliveryServicesDTO.push({
-				id: item._id,
+				_id: item._id,
 				name: item.name,
 				email: item.email,
+				isActive: item.isActive,
 				telephoneNumber: item.telephoneNumber,
+				description: item.description,
+				address: item.address,
 				createdOn: momentController(item.createdOn).format("MMMM Do YYYY"),
 				updatedOn: momentController(item.updatedOn).format("MMMM Do YYYY"),
 			});
