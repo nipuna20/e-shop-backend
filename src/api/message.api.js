@@ -38,6 +38,38 @@ const saveMessage = async (request, response) => {
 	}
 };
 
+const markAsRead = async (request, response) => {
+	try {
+		const { id } = request.params;
+
+		const message = await Message.findById(id);
+
+		if (message === null) {
+			response.json({
+				isSuccess: false,
+				message: "Not Found Message Please try Again",
+			});
+		}
+
+		const messageObj = await Message.findByIdAndUpdate(id, {
+			isActive: false,
+		});
+
+		response.json({
+			isSuccess: true,
+			message: "Message has been marked as read successfully",
+		});
+	} catch (error) {
+		logger.error(error);
+
+		response.json({
+			isSuccess: false,
+			message: "Error has been occred please try again ",
+		});
+	}
+};
+
 module.exports = {
 	saveMessage,
+	markAsRead,
 };
