@@ -1,8 +1,6 @@
-# e-shop-backend
-Web Application | 3rd year 2nd semester SPM Project | SLIIT
 
 # Group-ID
-## E-shop
+## E-shop - Backend
 ## Group Details
 
 *Member Details :*
