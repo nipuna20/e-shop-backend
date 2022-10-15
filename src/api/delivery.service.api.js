@@ -172,12 +172,12 @@ const controlDeliveryServiceActivities = async (request, response) => {
 			if (isActive === true) {
 				response.json({
 					isSuccess: true,
-					message: "Delivery Service has been enabled successfully",
+					message: "Delivery Service has been disabled successfully",
 				});
 			} else {
 				response.json({
 					isSuccess: true,
-					message: "Delivery Service has been disabled successfully",
+					message: "Delivery Service has been enabled successfully",
 				});
 			}
 		}

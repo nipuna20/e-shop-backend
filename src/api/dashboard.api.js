@@ -18,6 +18,7 @@ const getAdminDashBoarddData = async (request, response) => {
 		let deliveryServicesCount = await deleveryService.find({ isActive: true }).count();
 		let totalPendingOrdersCount = await Order.find({ status: "Pending" }).count();
 		let clientMessages = await Messages.find({ isActive: true }).sort({ createdOn: -1 });
+		let totalSalesCount = await Order.find({ status: "Accepted" }).count();
 
 		response.json({
 			totalUsersCount: totalUsersCount,
@@ -25,6 +26,7 @@ const getAdminDashBoarddData = async (request, response) => {
 			deliveryServicesCount: deliveryServicesCount,
 			totalPendingOrdersCount: totalPendingOrdersCount,
 			clientMessages: clientMessages,
+			totalSalesCount: totalSalesCount,
 		});
 	} catch (error) {
 		logger.error(error);
