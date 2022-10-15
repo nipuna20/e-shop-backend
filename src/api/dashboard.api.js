@@ -17,7 +17,7 @@ const getAdminDashBoarddData = async (request, response) => {
 		let totalMessagesCount = await Messages.find({ isActive: true }).count();
 		let deliveryServicesCount = await deleveryService.find({ isActive: true }).count();
 		let totalPendingOrdersCount = await Order.find({ status: "Pending" }).count();
-		let clientMessages = await Messages.find({ isActive: true }).exec();
+		let clientMessages = await Messages.find({ isActive: true }).sort({ createdOn: -1 });
 
 		response.json({
 			totalUsersCount: totalUsersCount,
